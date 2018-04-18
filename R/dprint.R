@@ -10,7 +10,7 @@
 
 dprint <- function(max_files=11, max_nchar=20, show_hidden = FALSE) {
 
-  #TODO check that the max chr length needs to be identical for diff cols
+  # TODO check that the max chr length needs to be identical for diff cols
   files <- list.files(all.files = show_hidden)
   pwd <- glue::glue_col("
 {wd
@@ -50,7 +50,7 @@ dprint <- function(max_files=11, max_nchar=20, show_hidden = FALSE) {
 
 
     # if it exceeds max as defined in function args, replace with whats specified
-    files <- files %>% purrr::map( ~ pad_vector(., max = max_file_length))
+    files <- files %>% purrr::map(~ pad_vector(., max = max_file_length))
 
     # find the maximum length of each element in each vector
     max_chr_length <- files %>%

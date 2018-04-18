@@ -16,11 +16,9 @@ countp <- function(df, col, ...) {
       p = 1.0 * n / sum(n)
     )
 
-  if(dplyr::is.grouped_df(df)){ # TODO get smarter
-   df
+  if (dplyr::is.grouped_df(df)) { # TODO get smarter
+    df
   } else {
-   dplyr::arrange(df, dplyr::desc(p))
+    dplyr::arrange(df, dplyr::desc(p))
   }
 }
-
-

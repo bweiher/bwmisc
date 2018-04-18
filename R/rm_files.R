@@ -3,11 +3,11 @@
 #' Just a wrapper for file.create or dir.create
 #'
 #' @export
-#' @param x a file to create
-touch <- function(x) {
+#' @param x a file (or vector of them) to delete
+rm_files <- function(x) {
   if (stringr::str_detect(x, "\\.")) {
-    file.create(x)
+    file.remove(x)
   } else {
-    dir.create(x)
+    unlink(x)
   }
 }
