@@ -10,6 +10,7 @@
 #' @importFrom crayon "blue"
 #' @importFrom crayon "bgRed"
 
+# TODO sorting methods
 
 utils::globalVariables(c("x2", "p"))
 
@@ -43,14 +44,13 @@ equalize_chr_length <- function(x, max_chr_length) {
 
 
 
-#' @export
 
-# dprint
+#' @export
 thm1 <- red$ italic
 thm2 <- cyan$ italic
 thm3 <- yellow$ italic
 
-thm1_title <- red$ italic$ underline$ bold
+thm1_title <- red$ italic$ underline$ boldc
 thm2_title <- cyan$ italic$ underline$ bold
 thm3_title <- yellow$ italic$ underline$ bold
 wd <- green$ bold$ italic

@@ -1,9 +1,9 @@
 Package: bwmisc
 Type: Package
-Title: Miscellaneous functions for random things
-Version: 0.1.0
+Title: Miscellaneous functions for random things that I might use on a daily basis
+Version: 0.1.1
 Author: Ben Weiher
-Maintainer: Ben Weiher <bweiher@protonmail.com>
+Maintainer: Ben Weiher <bweiher@pm.me>
 Description: A random R library.
 License: MIT + file LICENSE
 Encoding: UTF-8

@@ -4,14 +4,14 @@
 \alias{dprint}
 \title{Prints the directories of your current wd}
 \usage{
-dprint(max_files = 11, max_nchar = 20, show_hidden = FALSE)
+dprint(max_files = 11, max_nchar = 20, ...)
 }
 \arguments{
 \item{max_files}{The maximum number of files to show per bin}
 
 \item{max_nchar}{The maximum length of a file name to show}
 
-\item{show_hidden}{Whether to show hidden files}
+\item{...}{Other arguments passed to methods}
 }
 \description{
 Prints the directories of your current wd
