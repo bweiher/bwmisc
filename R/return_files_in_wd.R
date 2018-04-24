@@ -6,9 +6,10 @@
 #'
 #'
 #' @param show_hidden Whether to show hidden files
+#' @param filter_groups Filter for the groups not the length of them
 
 
-return_files_in_wd <- function(show_hidden = FALSE) {
+return_files_in_wd <- function(show_hidden = FALSE, filter_groups = FALSE) {
   files <- list.files(all.files = show_hidden)
 
   r_files <- stringr::str_subset(stringr::str_to_lower(files), "\\.r$|\\.rmd") %>% paste(sep = "\n")
@@ -17,5 +18,9 @@ return_files_in_wd <- function(show_hidden = FALSE) {
 
   cols_included <- 3L
 
-  list(cols_included, r_files, dirs, other_files)
+  if (filter_groups == TRUE) {
+    list(r_files, dirs, other_files)
+  } else {
+    list(cols_included, r_files, dirs, other_files)
+  }
 }

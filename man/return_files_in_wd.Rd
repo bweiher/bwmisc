@@ -4,10 +4,12 @@
 \alias{return_files_in_wd}
 \title{Returns a list of files}
 \usage{
-return_files_in_wd(show_hidden = FALSE)
+return_files_in_wd(show_hidden = FALSE, filter_groups = FALSE)
 }
 \arguments{
 \item{show_hidden}{Whether to show hidden files}
+
+\item{filter_groups}{Filter for the groups not the length of them}
 }
 \description{
 The list is formatted by the object type it is interpreted as

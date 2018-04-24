@@ -64,7 +64,7 @@ dprint <- function(max_files=11, max_nchar=20, ...) {
     title_list_chr <- character(length = cols_included)
     file_list_chr <- character(length = cols_included)
 
-    for (g in seq_along(title_list)) {
+    for (g in seq_along(title_list)) { # ITS BROKEN HERE
       if (nvec[g] > 0) {
         name <- names(title_list[g])
         title_list_chr[[g]] <- paste0("{thm", g, "_title {title_list[[", g, "]]}}")

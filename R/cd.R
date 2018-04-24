@@ -6,32 +6,19 @@
 
 cd <- function(x, ...) {
   if (missing(x)) {
-    glue::glue_col(
-      "{gb
-Print current working directory with:
-{gi cd('')}
-
-Move with:
-{gi cd('newdir')}
-
-Jump down with:
-{gi cd('..')}
-
-Go to your root directory with:
-{gi cd('~')}
-      }"
-    )
-  } else if (grepl("\\..", x)) {
+    cd_helper()
+  } else if (grepl("\\..", x)) { # fine
     setwd("..")
     dprint(...)
-  } else if (grepl("~", x)) {
+  } else if (grepl("~", x)) { # fine
     setwd("~")
     dprint(...)
-  } else if (grepl(pattern = "^[A-Z]{1-4}:", x = x)) {
+  } else if (grepl(pattern = "^[A-Z]{1-4}:", x = x)) { # fine, new HD
     setwd(x)
     dprint(...)
   } else {
-    setwd(paste(getwd(), "/", x, sep = ""))
+    newdir <- paste0(getwd(), "/", x, "/") # bugged ?
+    setwd(newdir)
     dprint(...)
   }
 }

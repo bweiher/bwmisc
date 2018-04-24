@@ -28,6 +28,7 @@ pad_vector <- function(x, max) {
 
 
 
+
 equalize_chr_length <- function(x, max_chr_length) {
   dplyr::tibble(x) %>%
     dplyr::mutate(
@@ -43,14 +44,11 @@ equalize_chr_length <- function(x, max_chr_length) {
 }
 
 
-
-
-#' @export
 thm1 <- red$ italic
 thm2 <- cyan$ italic
 thm3 <- yellow$ italic
 
-thm1_title <- red$ italic$ underline$ boldc
+thm1_title <- red$ italic$ underline$ bold
 thm2_title <- cyan$ italic$ underline$ bold
 thm3_title <- yellow$ italic$ underline$ bold
 wd <- green$ bold$ italic
@@ -64,6 +62,30 @@ ri <- red$ italic$ bold # the field we call out
 mt <- blue # the main theme
 
 
+cd_helper <- function() {
+  glue::glue_col(
+    "{gb
+
+Print current working directory with:
+
+    {gi cd('')}
+
+Move with:
+
+    {gi cd('updir')}
+
+Jump down with:
+
+    {gi cd('..')}
+
+
+Go to your root directory with:
+
+    {gi cd('~')}
+
+}"
+  )
+}
 
 # ------
 
