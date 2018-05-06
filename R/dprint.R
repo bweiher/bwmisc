@@ -21,6 +21,8 @@ dprint <- function(max_files=11, max_nchar=20, ...) {
 
 
   if (length(files) > 0) {
+   
+    
     file_lengths <- files %>% purrr::map_dbl(~ length(.))
 
     nvec <- double(length = cols_included)
@@ -57,14 +59,15 @@ dprint <- function(max_files=11, max_nchar=20, ...) {
     title_list <- list(
       "title1" = equalize_chr_length("R Scripts", max_chr_length = max_chr_length),
       "title2" = equalize_chr_length("Directories", max_chr_length = max_chr_length),
-      "title3" = equalize_chr_length("Other Files", max_chr_length = max_chr_length)
+      "title3" = equalize_chr_length("Data Files", max_chr_length = max_chr_length),
+      "title4" = equalize_chr_length("Other Files", max_chr_length = max_chr_length)
     )
 
 
     title_list_chr <- character(length = cols_included)
     file_list_chr <- character(length = cols_included)
 
-    for (g in seq_along(title_list)) { # ITS BROKEN HERE
+    for (g in seq_along(title_list)) { 
       if (nvec[g] > 0) {
         name <- names(title_list[g])
         title_list_chr[[g]] <- paste0("{thm", g, "_title {title_list[[", g, "]]}}")
@@ -72,7 +75,7 @@ dprint <- function(max_files=11, max_nchar=20, ...) {
       }
     }
 
-    file_list_chr <- file_list_chr[nchar(file_list_chr) != 0]
+    file_list_chr <-  file_list_chr[nchar(file_list_chr) != 0]
     title_list_chr <- title_list_chr[nchar(title_list_chr) != 0]
 
 

@@ -22,7 +22,7 @@ pad_vector <- function(x, max) {
   } else if (length(x) > max) {
     c(x[1:max - 1L], "...")
   } else {
-    x
+    x 
   }
 }
 
@@ -46,11 +46,13 @@ equalize_chr_length <- function(x, max_chr_length) {
 
 thm1 <- red$ italic
 thm2 <- cyan$ italic
-thm3 <- yellow$ italic
+thm3 <- blue$ italic
+thm4 <- magenta $italic
 
 thm1_title <- red$ italic$ underline$ bold
 thm2_title <- cyan$ italic$ underline$ bold
-thm3_title <- yellow$ italic$ underline$ bold
+thm3_title <- blue$ italic$ underline$ bold
+thm4_title <- magenta $ italic $underline $bold
 wd <- green$ bold$ italic
 vertline <- black$ bold
 
