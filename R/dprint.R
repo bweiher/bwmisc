@@ -17,7 +17,7 @@ dprint <- function(max_files=11, max_nchar=20, ...) {
   files <- return_files_in_wd(...)
   cols_included <- files[[1]]
   files <- files[2:length(files)]
-
+  files <- files[files != "character(0)"]
 
 
   if (length(files) > 0) {
@@ -45,16 +45,19 @@ dprint <- function(max_files=11, max_nchar=20, ...) {
     files <- files %>% purrr::map(~ pad_vector(., max = max_file_length))
 
     # find the maximum length of each element in each vector
-    max_chr_length <- files %>%
+    max_chr_length <- suppressWarnings(
+      files %>%
       purrr::map(~ nchar(.)) %>%
       unlist() %>%
       max(., na.rm = TRUE)
+    )
+      
 
     max_chr_length <- ifelse(
       max_chr_length > max_nchar, max_nchar, max_chr_length
     )
 
-    files <- purrr::map(files, ~ equalize_chr_length(., max_chr_length = max_chr_length))
+    files <- suppressWarnings(purrr::map(files, ~ equalize_chr_length(., max_chr_length = max_chr_length)))
 
     title_list <- list(
       "title1" = equalize_chr_length("R Scripts", max_chr_length = max_chr_length),
