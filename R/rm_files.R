@@ -5,9 +5,16 @@
 #' @export
 #' @param x a file (or vector of them) to delete
 rm_files <- function(x) {
-  if (stringr::str_detect(x, "\\.")) {
+  if (sum(stringr::str_detect(x, "\\.")) > 0) {
     file.remove(x)
   } else {
-    unlink(x)
+    unlink(x,recursive = TRUE)
   }
+  
+  glue::glue_col("
+                   {red Deleted:}
+                   {gi {  glue::glue_collapse(x,sep = ', ')}}
+                   ")
+  
 }
+

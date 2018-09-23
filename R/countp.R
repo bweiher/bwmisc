@@ -11,14 +11,16 @@
 countp <- function(df, col, ...) {
   col_q <- dplyr::enquo(col)
 
-  df <- dplyr::count(df, !!col_q, ...) %>%
-    dplyr::mutate(
-      p = 1.0 * n / sum(n)
-    )
-
-  if (dplyr::is.grouped_df(df)) { # TODO get smarter
-    df
+  if (dplyr::is.grouped_df(df)) { 
+    df %>% 
+      dplyr::count() %>% 
+      dplyr::ungroup() %>% 
+      dplyr::mutate(n =1.0 * n / sum(n))
   } else {
-    dplyr::arrange(df, dplyr::desc(p))
+    df %>% 
+      dplyr::count(!!col_q) %>% 
+      dplyr::mutate(
+        p = 1.0 * n / sum(n)
+      )
   }
 }
