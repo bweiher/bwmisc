@@ -91,6 +91,15 @@ Go to your root directory with:
 
 # ------
 
+.onLoad <- function(libname = find.package("bwmisc"),
+                    pkgname = "bwmisc")
+  
+
+options(bwmisc.global =  list(
+    max_files =  11, 
+    max_nchar = 20
+  ))
+
 
 # .onLoad <- function(libname = find.package("highcharter"),
 #                     pkgname = "highcharter") {
