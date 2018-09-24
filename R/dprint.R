@@ -18,7 +18,7 @@ dprint <- function(max_files = 11, max_nchar = 20, ...) {
   cols_included <- files[[1]]
   files <- files[2:length(files)]
 
-  if (length(files) > 0) {
+  if (length(files) > 0 && length(files[files != "character(0)"]) > 0) {
     file_lengths <- files %>% purrr::map_dbl(~length(.))
 
     nvec <- double(length = cols_included)
@@ -41,7 +41,7 @@ dprint <- function(max_files = 11, max_nchar = 20, ...) {
     files <- files %>% purrr::map(~pad_vector(., max = max_file_length))
 
     # find the maximum length of each element in each vector
-    max_chr_length <- files %>%
+    max_chr_length <-  files %>%
       purrr::map(~nchar(.)) %>%
       unlist() %>%
       max(., na.rm = TRUE)
