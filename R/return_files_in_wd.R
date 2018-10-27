@@ -14,7 +14,7 @@ return_files_in_wd <- function(show_hidden = FALSE, filter_groups = FALSE) {
 
   
   other_files_reg <- "\\.r$|\\.rmd$|\\.csv|\\.feather"
-  r_files <- stringr::str_subset(stringr::str_to_lower(files), "\\.r$|\\.rmd") %>% paste(sep = "\n")
+  r_files <- stringr::str_subset(stringr::str_to_lower(files), "\\.r$|\\.rmd|\\.py") %>% paste(sep = "\n")
   dirs <- files[!stringr::str_detect(files, "\\.")] %>% paste(sep = "\n")
   other_files <- stringr::str_subset(files, "\\.") %>% stringr::str_to_lower() %>% .[!stringr::str_detect(.,other_files_reg)]
   data_files <-  stringr::str_to_lower(files) %>%  stringr::str_subset("\\.csv|\\.feather\\.Rdata")
