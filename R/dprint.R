@@ -78,7 +78,7 @@ dprint <- function(max_files = 11, max_nchar = 20, ...) {
     p1 <- glue::glue_col(paste(title_list_chr, collapse = "   "))
     middle <- rep("|", max_file_length)
     p2 <- glue::glue_col(paste(file_list_chr, collapse = " {vertline {middle}} "))
-    files <- files[nvec[nvec > 0]] # filter them out
+    # files <- files[nvec[nvec > 0]] # filter them out
     print(pwd, p1, p2)
   } else {
     print(pwd)
