@@ -54,15 +54,20 @@ dprint <- function(max_files = 11, max_nchar = 20, ...) {
 
     files <- purrr::map(files, ~equalize_chr_length(., max_chr_length = max_chr_length))
 
-    title_list <- list(
-      "Scripts" = equalize_chr_length("Scripts", max_chr_length = max_chr_length),
-      "Dirs" = equalize_chr_length("Dirs", max_chr_length = max_chr_length),
-      "Data" = equalize_chr_length("Data", max_chr_length = max_chr_length),
-      "Misc" = equalize_chr_length("Misc", max_chr_length = max_chr_length)
-    )
-
-
-    title_list_chr <- character(length = cols_included)
+    title_list <- c("Scripts", "Dirs", "Data", "Misc") %>% 
+      map(., function(x){
+        x = equalize_chr_length(x, max_chr_length = max_chr_length)
+      })
+    # 
+    # title_list <- list(
+    #   "Scripts" = equalize_chr_length("Scripts", max_chr_length = max_chr_length),
+    #   "Dirs" = equalize_chr_length("Dirs", max_chr_length = max_chr_length),
+    #   "Data" = equalize_chr_length("Data", max_chr_length = max_chr_length),
+    #   "Misc" = equalize_chr_length("Misc", max_chr_length = max_chr_length)
+    # )
+    # 
+    # 
+   title_list_chr <- character(length = cols_included)
     file_list_chr <- character(length = cols_included)
 
     for (g in seq_along(title_list)) {
