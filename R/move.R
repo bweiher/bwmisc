@@ -6,13 +6,9 @@
 #' @param x files or dirs that you want to move
 #' @param dir_to directory/filename to move files to
 move <- function(x, dir_to) {
-  if (file.exists(x)) {
     chr_length <- character(length = length(x))
-    for (g in seq_along(x)) {
+    for (g in seq_along(chr_length)) {
       where <- glue::glue("{dir_to}/{x[g]}")
-      invisible(file.rename(from = x, to = where))
+      invisible(file.rename(from = x[g], to = where))
     }
-  } else {
-    message("File didn't exist")
-  }
 }

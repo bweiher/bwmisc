@@ -8,8 +8,7 @@ rprint <- function(x) {
   string <- unlist(stringr::str_split(x, ""))
 
   for (g in seq_along(string)) {
-    string[g] <- glue::glue("{sample(x=cols,  size=1)} {string[g]}") %>%
-      paste0("{", ., "}")
+    string[g] <- glue::glue("{{{sample(x=cols,  size=1)} {string[g]}}}") 
   }
 
   string[stringr::str_detect(string, "  ")] <- " "
