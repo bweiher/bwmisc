@@ -55,7 +55,7 @@ dprint <- function(max_files = 11, max_nchar = 20, ...) {
     files <- purrr::map(files, ~equalize_chr_length(., max_chr_length = max_chr_length))
 
     title_list <- c("Scripts", "Dirs", "Data", "Misc") %>% 
-      map(., function(x){
+      purrr::map(., function(x){
         x = equalize_chr_length(x, max_chr_length = max_chr_length)
       })
     # 
