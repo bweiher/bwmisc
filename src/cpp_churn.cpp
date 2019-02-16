@@ -1,6 +1,10 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' The number of periods since x was positive (churn).
+//'
+//' @param x input numeric vector
+//' @return periods since last positive value
 // [[Rcpp::export]]
 NumericVector cpp_churn(NumericVector x){
   int rows =  x.size();

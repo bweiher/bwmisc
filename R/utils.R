@@ -9,7 +9,9 @@
 #' @importFrom crayon "bold"
 #' @importFrom crayon "blue"
 #' @importFrom crayon "bgRed"
-
+#' @useDynLib bwmisc
+#' @importFrom Rcpp sourceCpp
+NULL
 # TODO sorting methods
 
 utils::globalVariables(c("x2", "p"))
