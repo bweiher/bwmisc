@@ -17,6 +17,41 @@ NULL
 utils::globalVariables(c("x2", "p"))
 
 
+typeof_safe <- function(x) {
+  if (typeof(x) == "double" && class(x) %in% c("POSIXct", "POSIXt", "Date")) {
+    "character"
+  } else {
+    typeof(x)
+  }
+}
+
+
+switch_x <- function(x) switch(x,
+                               "character" = "STRING",
+                               "logical" = "LOGICAL",
+                               "double" = "DOUBLE",
+                               "integer" = "INTEGER"
+)
+
+
+switch_to_hive <- function(x) {
+  len <- length(x)
+  if (len > 1) {
+    chr <- character(length = len)
+    for (g in seq_along(x)) {
+      chr[g] <- switch_x(x[[g]])
+    }
+    chr
+  } else {
+    switch_x(x)
+  }
+}
+
+equalize_chr_vector <- function(chr_vector) {
+  stringr::str_pad(string = chr_vector, width = max(nchar(chr_vector)), pad = " ", side = "right")
+}
+
+
 pad_vector <- function(x, max) {
   if (length(x) < max) {
     diff <- max - length(x)
