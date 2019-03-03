@@ -10,35 +10,29 @@
 #' @return a query to execute in hive
 #' @examples
 #' hive_ctas(data.frame(
-#' chr = letters[1:5],
-#' lgl = c(TRUE, FALSE, TRUE, FALSE, TRUE),
-#' dbl = runif(5),
-#' int = 15L:19L,
-#' time = Sys.time(),
-#' date = Sys.Date(),
-#' chr2 = 'meow'
+#'   chr = letters[1:5],
+#'   lgl = c(TRUE, FALSE, TRUE, FALSE, TRUE),
+#'   dbl = runif(5),
+#'   int = 15L:19L,
+#'   time = Sys.time(),
+#'   date = Sys.Date(),
+#'   chr2 = "meow"
 #' ),
-#' partitition = 'date')
-#' 
-
+#' partitition = "date"
+#' )
 hive_ctas <- function(dataframe, comment = NA, table = "random", partitition = NULL) {
   if (length(comment) != ncol(dataframe) && !is.na(comment)) stop("comment and colnames must be of equal length")
-  
+
   if (table == "random") {
-    table <- paste0("tmp.", paste0(sample(letters, 9, replace = TRUE), collapse = ""),"_", stringr::str_replace_all(Sys.Date(),"-",""))
+    table <- paste0("tmp.", paste0(sample(letters, 9, replace = TRUE), collapse = ""), "_", stringr::str_replace_all(Sys.Date(), "-", ""))
   }
 
   if (sum(is.na(comment)) > 0) {
     comment <- rep("", ncol(dataframe))
   }
 
-  # if (any(comment != "")) {
-  #   comment_col <- paste0("'", comment, "'", ",")
-  #   comment_col[length(comment_col)] <- stringr::str_replace(comment_col[length(comment_col)], ",", "")
-  # } else {
-    comment_col <- paste0("'", comment, "'", ",")
-    comment_col[length(comment_col)] <- stringr::str_replace(comment_col[length(comment_col)], ",", "")
-  #}
+  comment_col <- paste0("'", comment, "'", ",")
+  comment_col[length(comment_col)] <- stringr::str_replace(comment_col[length(comment_col)], ",", "")
 
   # get the type of the columns from R to Hive
   types <- as.character(purrr::map_chr(dataframe, typeof_safe))
@@ -51,10 +45,10 @@ hive_ctas <- function(dataframe, comment = NA, table = "random", partitition = N
   if (!is.null(partitition)) {
     part_type <- hive_datatypes[which(names(dataframe) %in% partitition)]
     part_type <- glue_col("{italic {part_type}}")
-    part_name <- names(dplyr::select(dataframe, partitition))
-    y <- paste(part_name, part_type, collapse = ",\n")
+    part_name <- names(dataframe)[names(dataframe) %in% partitition]
+    y <- paste(part_name, part_type, collapse = "\n")
 
-    part <- glue::glue_col("{bold PARTITION BY } ( 
+    part <- glue::glue_col("{bold PARTITION BY }( 
                  {    y}
                  )")
   } else {
@@ -64,15 +58,10 @@ hive_ctas <- function(dataframe, comment = NA, table = "random", partitition = N
   x <- equalize_chr_vector(paste0(names, "    ", glue::glue_col("{italic {hive_datatypes}}")))
   x <- equalize_chr_vector(paste0(x, "    COMMENT", "    "))
   x <- paste0(x, equalize_chr_vector(glue::glue_col("{italic {comment_col}}")))
-  # header <- glue::glue_collapse(rep("-", nchar(x[1])), sep = "")
 
-
-  glue::glue_col(
-    "{bold CREATE TABLE IF NOT EXISTS} {bi {table}} (
+  print(glue::glue_col("
+{bold CREATE TABLE IF NOT EXISTS} {bi {table}} (
 {glue::glue_collapse(x, sep = '\n')}
 ) {part}
-
-                                                                     "
-  ) %>% print
+"))
 }
-
