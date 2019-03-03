@@ -9,19 +9,23 @@
 #' @param partitition quoted partitions to include
 #' @return a query to execute in hive
 #' @examples
-#' generate_hive_ctas(data.frame(
-#'   chr = letters[1:5],
-#'   lgl = c(TRUE, FALSE, TRUE, FALSE, TRUE),
-#'   dbl = runif(5),
-#'   int = 15L:19L,
-#'   time = Sys.time(),
-#'   date = Sys.Date()
-#' ))
-generate_hive_ctas <- function(dataframe, comment = NA, table = "random", partitition = NULL) {
-  if (length(comment) != ncol(dataframe) && !is.na(comment)) stop("comment and colnames must be of equal length")
+#' hive_ctas(data.frame(
+#' chr = letters[1:5],
+#' lgl = c(TRUE, FALSE, TRUE, FALSE, TRUE),
+#' dbl = runif(5),
+#' int = 15L:19L,
+#' time = Sys.time(),
+#' date = Sys.Date(),
+#' chr2 = 'meow'
+#' ),
+#' partitition = 'date')
+#' 
 
+hive_ctas <- function(dataframe, comment = NA, table = "random", partitition = NULL) {
+  if (length(comment) != ncol(dataframe) && !is.na(comment)) stop("comment and colnames must be of equal length")
+  
   if (table == "random") {
-    table <- paste0("tmp.", paste0(sample(letters, 12, replace = TRUE), collapse = ""))
+    table <- paste0("tmp.", paste0(sample(letters, 9, replace = TRUE), collapse = ""),"_", stringr::str_replace_all(Sys.Date(),"-",""))
   }
 
   if (sum(is.na(comment)) > 0) {
@@ -36,8 +40,6 @@ generate_hive_ctas <- function(dataframe, comment = NA, table = "random", partit
     comment_col[length(comment_col)] <- stringr::str_replace(comment_col[length(comment_col)], ",", "")
   }
 
-
-
   # get the type of the columns from R to Hive
   types <- as.character(purrr::map_chr(dataframe, typeof_safe))
   chr <- character(length = length(types))
@@ -51,26 +53,25 @@ generate_hive_ctas <- function(dataframe, comment = NA, table = "random", partit
     part_name <- names(dplyr::select(dataframe, partitition))
     y <- paste(part_name, part_type, collapse = ",\n")
 
-    part <- glue::glue(" PARTITION BY ( 
+    part <- glue::glue_col("{bold PARTITION BY } ( 
                  {    y}
                  )")
   } else {
     part <- ""
   }
 
-  x <- equalize_chr_vector(paste0(names, "    ", hive_datatypes))
+  x <- equalize_chr_vector(paste0(names, "    ", glue::glue_col("{italic {hive_datatypes}}")))
   x <- equalize_chr_vector(paste0(x, "    COMMENT", "    "))
   x <- paste0(x, equalize_chr_vector(comment_col))
 
 
 
-  glue::glue(
-    "CREATE TABLE IF NOT EXISTS {table} ( 
-{ 
-
-glue::glue_collapse(x, sep = '\n')}
+  glue::glue_col(
+    "{bold CREATE TABLE IF NOT EXISTS} {wd {table}} (
+{glue::glue_collapse(x, sep = '\n')}
 ) {part}
 
                                                                      "
-  )
+  ) %>% print
 }
+

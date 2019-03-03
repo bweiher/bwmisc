@@ -18,7 +18,8 @@ utils::globalVariables(c("x2", "p"))
 
 
 typeof_safe <- function(x) {
-  if (typeof(x) == "double" && class(x) %in% c("POSIXct", "POSIXt", "Date")) {
+  if (typeof(x) == "double" && class(x) %in% c("POSIXct", "POSIXt", "Date") |
+      typeof(x) == "integer" && class(x) == 'factor') {
     "character"
   } else {
     typeof(x)
