@@ -65,7 +65,7 @@ pad_vector <- function(x, max) {
 }
 
 
-
+bi <- bold$italic$green
 
 equalize_chr_length <- function(x, max_chr_length) {
   dplyr::tibble(x) %>%
@@ -91,7 +91,7 @@ thm1_title <- red$ italic$ underline$ bold
 thm2_title <- cyan$ italic$ underline$ bold
 thm3_title <- blue$ italic$ underline$ bold
 thm4_title <- magenta $ italic $underline $bold
-wd <- green$ bold$ italic
+wd <- magenta$ bold$ italic $ bgWhite
 vertline <- black$ bold
 
 gi <- cyan$ italic$ bold

@@ -14,6 +14,8 @@ rprint <- function(x) {
   string[stringr::str_detect(string, "  ")] <- " "
 
   glue::glue_collapse(string) %>%
-    glue::glue_col() %>%
-    print()
+    glue::glue_col()
+  
+  # %>%
+  #   print()
 }

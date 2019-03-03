@@ -32,13 +32,13 @@ hive_ctas <- function(dataframe, comment = NA, table = "random", partitition = N
     comment <- rep("", ncol(dataframe))
   }
 
-  if (any(comment != "")) {
+  # if (any(comment != "")) {
+  #   comment_col <- paste0("'", comment, "'", ",")
+  #   comment_col[length(comment_col)] <- stringr::str_replace(comment_col[length(comment_col)], ",", "")
+  # } else {
     comment_col <- paste0("'", comment, "'", ",")
     comment_col[length(comment_col)] <- stringr::str_replace(comment_col[length(comment_col)], ",", "")
-  } else {
-    comment_col <- paste0("'", comment, "'", ",")
-    comment_col[length(comment_col)] <- stringr::str_replace(comment_col[length(comment_col)], ",", "")
-  }
+  #}
 
   # get the type of the columns from R to Hive
   types <- as.character(purrr::map_chr(dataframe, typeof_safe))
@@ -50,6 +50,7 @@ hive_ctas <- function(dataframe, comment = NA, table = "random", partitition = N
   # using partitions
   if (!is.null(partitition)) {
     part_type <- hive_datatypes[which(names(dataframe) %in% partitition)]
+    part_type <- glue_col("{italic {part_type}}")
     part_name <- names(dplyr::select(dataframe, partitition))
     y <- paste(part_name, part_type, collapse = ",\n")
 
@@ -62,12 +63,12 @@ hive_ctas <- function(dataframe, comment = NA, table = "random", partitition = N
 
   x <- equalize_chr_vector(paste0(names, "    ", glue::glue_col("{italic {hive_datatypes}}")))
   x <- equalize_chr_vector(paste0(x, "    COMMENT", "    "))
-  x <- paste0(x, equalize_chr_vector(comment_col))
-
+  x <- paste0(x, equalize_chr_vector(glue::glue_col("{italic {comment_col}}")))
+  # header <- glue::glue_collapse(rep("-", nchar(x[1])), sep = "")
 
 
   glue::glue_col(
-    "{bold CREATE TABLE IF NOT EXISTS} {wd {table}} (
+    "{bold CREATE TABLE IF NOT EXISTS} {bi {table}} (
 {glue::glue_collapse(x, sep = '\n')}
 ) {part}
 
