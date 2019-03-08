@@ -4,8 +4,8 @@
 \alias{hive_ctas}
 \title{Generate Hive CTAS statement from R dataframe}
 \usage{
-hive_ctas(dataframe, comment = NA, table = "random",
-  partitition = NULL)
+hive_ctas(dataframe, comment = NULL, table = "random",
+  partitition = NULL, tbl_properties = NULL)
 }
 \arguments{
 \item{dataframe}{data}
@@ -15,23 +15,24 @@ hive_ctas(dataframe, comment = NA, table = "random",
 \item{table}{schema.table name}
 
 \item{partitition}{quoted partitions to include}
+
+\item{tbl_properties}{named list of properties to give}
 }
 \value{
-a query to execute in hive
+a create table statement executable in hive
 }
 \description{
 Generate Hive CTAS statement from R dataframe
 }
 \examples{
 hive_ctas(data.frame(
-chr = letters[1:5],
-lgl = c(TRUE, FALSE, TRUE, FALSE, TRUE),
-dbl = runif(5),
-int = 15L:19L,
-time = Sys.time(),
-date = Sys.Date(),
-chr2 = 'meow'
+  chr = letters[1:5],
+  lgl = c(TRUE, FALSE, TRUE, FALSE, TRUE),
+  dbl = runif(5),
+  int = 15L:19L,
+  time = Sys.time(),
+  date = Sys.Date()
 ),
-partitition = 'date')
-
+partitition = "date"
+)
 }
