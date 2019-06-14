@@ -29,9 +29,9 @@ typeof_safe <- function(x) {
 
 switch_x <- function(x) switch(x,
                                "character" = "STRING",
-                               "logical" = "LOGICAL",
+                               "logical" = "BOOLEAN",
                                "double" = "DOUBLE",
-                               "integer" = "INTEGER"
+                               "integer" = "INT"
 )
 
 
@@ -138,3 +138,4 @@ options(bwmisc.global =  list(
     max_nchar = 20
   ))
 
+ 

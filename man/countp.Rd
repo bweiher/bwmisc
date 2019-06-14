@@ -4,7 +4,7 @@
 \alias{countp}
 \title{Counts rows and calculates proportions}
 \usage{
-countp(df, col, ...)
+countp(df, col = NULL, ...)
 }
 \arguments{
 \item{df}{a dataframe}
