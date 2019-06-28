@@ -49,7 +49,7 @@ hive_ctas <- function(dataframe, comment = NULL, table = "random", partitition =
     part_name <- names(dataframe)[names(dataframe) %in% partitition]
     y <- paste(part_name, part_type, collapse = "\n")
 
-    part <- glue::glue_col("{bold PARTITITION BY }( 
+    part <- glue::glue_col("{bold PARITITIONED BY }( 
                  {    y}
                  )")
   } else {
@@ -63,8 +63,8 @@ hive_ctas <- function(dataframe, comment = NULL, table = "random", partitition =
   
   if(is.null(tbl_properties)){
     props <- glue::glue("
-RETENTION_DAYS = '30',
-RETENTION_REASON = 'meow'")
+'abb_retention_days' = '3',
+'abb_retention_reason' = 'meow'")
   } else {
   
     
