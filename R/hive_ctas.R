@@ -49,7 +49,7 @@ hive_ctas <- function(dataframe, comment = NULL, table = "random", partitition =
     part_name <- names(dataframe)[names(dataframe) %in% partitition]
     y <- paste(part_name, part_type, collapse = "\n")
 
-    part <- glue::glue_col("{bold PARITITIONED BY }( 
+    part <- glue::glue_col("{bold PARTITIONED BY }( 
                  {    y}
                  )")
   } else {
