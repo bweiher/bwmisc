@@ -22,6 +22,8 @@
 #' )
 hive_ctas <- function(dataframe, comment = NULL, table = "random", partitition = NULL, tbl_properties = NULL) {
   
+  if(length(partitition) > 1) stop("only one or no partitition are supported currently!")
+  
   if (length(comment) != ncol(dataframe) && !is.null(comment)) stop("comment and colnames must be of equal length")
   
   if(!is.list(tbl_properties) && !is.null(tbl_properties)) stop("pass arguments as a named list")
@@ -44,17 +46,36 @@ hive_ctas <- function(dataframe, comment = NULL, table = "random", partitition =
   
   # using partitions
   if (!is.null(partitition)) {
-    part_type <- hive_datatypes[which(names(dataframe) %in% partitition)]
-    part_type <- glue::glue_col("{italic {part_type}}")
-    part_name <- names(dataframe)[names(dataframe) %in% partitition]
-    y <- paste(part_name, part_type, collapse = "\n")
+    
+    
+    if(!all(partitition %in% colnames(dataframe))){
+      
+      print(glue::glue_col("                     
+                                               ~~~~~~~     {bold WARNING! }  ~~~~~~~  \n
+      
+                           {italic IMPUTING partitition {ri {partitition}} as type STRING, it is not in provided dataframe}"))
+      part_name <- glue::glue_col("{italic {partitition}}")
+      part_type <- "STRING"
+      
+      
+    } else {
+      part_type <- hive_datatypes[which(names(dataframe) %in% partitition)]
+      part_type <- glue::glue_col("{italic {part_type}}")
+      part_name <- names(dataframe)[names(dataframe) %in% partitition]
 
+    }
+    
+    y <- paste(part_name, part_type, collapse = "\n")
     part <- glue::glue_col("{bold PARTITIONED BY }( 
                  {    y}
                  )")
+    
+
   } else {
     part <- ""
   }
+  
+  
 
   names <- equalize_chr_vector(names)
   
@@ -64,7 +85,7 @@ hive_ctas <- function(dataframe, comment = NULL, table = "random", partitition =
   if(is.null(tbl_properties)){
     props <- glue::glue("
 'abb_retention_days' = '3',
-'abb_retention_reason' = 'meow'")
+'abb_retention_days_reason' = 'meow'")
   } else {
   
     
