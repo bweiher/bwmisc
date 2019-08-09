@@ -88,8 +88,14 @@ hive_ctas <- function(dataframe, comment = NULL, table = "random", partitition =
 'abb_retention_days_reason' = 'meow'")
   } else {
   
+    names_prop <- names(tbl_properties)
+    for(name in seq_along(names_prop)){
+      if (!grepl("'|\\\"", names_prop[name])) 
+        names_prop[name] <-  paste0("'", names_prop[name], "'")
+    }
     
-    props <- paste(names(tbl_properties),paste0("'",as.character(tbl_properties),"'"), sep = ' = ') %>% 
+    
+    props <- paste(names(names_prop), paste0("'", as.character(tbl_properties),"'"), sep = ' = ') %>% 
       paste(collapse = ",\n")
     
   }
